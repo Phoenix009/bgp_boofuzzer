@@ -105,11 +105,13 @@ class FRRMonitor(TargetMonitor):
         super().__init__(binary_path)
 
     def stop_target(self):
-        command = 'systemctl stop frr'
+        # command = 'systemctl stop frr'
+        command = 'rc-service frr stop'
         subprocess.run(command.split(' '))
 
     def start_target(self):
-        command = 'systemctl start frr'
+        # command = 'systemctl start frr'
+        command = 'rc-service frr start'
         subprocess.run(command.split(' '))
 
 '''
