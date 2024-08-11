@@ -111,7 +111,7 @@ class FRRMonitor(TargetMonitor):
 
     def start_target(self):
         # command = 'systemctl start frr'
-        command = '/usr/lib/frr/docker-start'
+        command = '/usr/lib/frr/docker-start &'
         subprocess.run(command.split(' '))
 
 '''
