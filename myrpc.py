@@ -41,12 +41,22 @@ class TargetMonitor():
     '''
     def getpid(self, binary_path):
         pid = None
-        while pid == None:
+        while pid is None:
             try:
-                output = subprocess.check_output(('pidof', binary_path)).decode().replace('\n', '')
-                pid = int(output)
-            except:
+                # Execute 'ps -ef' and decode the output
+                output = subprocess.check_output(('ps', '-ef')).decode().splitlines()
+                
+                # Iterate through the output lines
+                for line in output:
+                    # Check if the line contains the binary path
+                    if binary_path in line:
+                        # Extract the PID, which is the second field in the output
+                        pid = int(line.split()[1])
+                        break
+
+            except subprocess.CalledProcessError:
                 pass
+            
         return pid
 
     '''
@@ -105,13 +115,11 @@ class FRRMonitor(TargetMonitor):
         super().__init__(binary_path)
 
     def stop_target(self):
-        # command = 'systemctl stop frr'
-        command = 'rc-service frr stop'
+        command = 'service frr stop'
         subprocess.run(command.split(' '))
 
     def start_target(self):
-        # command = 'systemctl start frr'
-        command = '/usr/lib/frr/docker-start &'
+        command = 'service frr start'
         subprocess.run(command.split(' '))
 
 '''
