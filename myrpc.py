@@ -14,7 +14,7 @@ class TargetMonitor():
     def __init__(self, binary_path):
         self.pid = None
         self.binary_path = binary_path
-        self.pid = self.reset_target(5)
+        self.pid = self.getpid(self.binary_path)
         self.should_exit = False
         self.attach(self.pid)
         signal.signal(signal.SIGINT, self.signal_handler)
