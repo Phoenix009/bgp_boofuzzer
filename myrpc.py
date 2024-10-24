@@ -101,15 +101,15 @@ NOTE: this has been tested on Ubuntu 22.04, make sure to redefine the
 stop_target() and start_target() functions to reflect your environment.
 '''
 class FRRMonitor(TargetMonitor):
-    def __init__(self, binary_path='/usr/lib/frr/bgpd'):
+    def __init__(self, binary_path='bgpd'):
         super().__init__(binary_path)
 
     def stop_target(self):
-        command = 'systemctl stop frr'
+        command = 'service frr stop'
         subprocess.run(command.split(' '))
 
     def start_target(self):
-        command = 'systemctl start frr'
+        command = '/usr/lib/frr/bgpd -d -F traditional -p 179 -f /etc/frr/frr.conf'
         subprocess.run(command.split(' '))
 
 '''
